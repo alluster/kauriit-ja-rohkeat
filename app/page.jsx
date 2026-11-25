@@ -1,48 +1,52 @@
-import Link from 'next/link';
 import { Card } from 'components/card';
-import { ContextAlert } from 'components/context-alert';
-import { Markdown } from 'components/markdown';
-import { RandomQuote } from 'components/random-quote';
 import { getNetlifyContext } from 'utils';
+import Image from 'next/image';
+import cover from 'public/cover.png';
 
-const contextExplainer = `
-The card below is rendered on the server based on the value of \`process.env.CONTEXT\` 
-([docs](https://docs.netlify.com/configure-builds/environment-variables/#build-metadata)):
-`;
 
-const preDynamicContentExplainer = `
-The card content below is fetched by the client-side from \`/quotes/random\` (see file \`app/quotes/random/route.js\`) with a different quote shown on each page load:
-`;
+
 
 const ctx = getNetlifyContext();
 
+// ...existing code...
+
 export default function Page() {
     return (
-        <div className="flex flex-col gap-12 sm:gap-16">
-            <section>
-                <ContextAlert className="mb-6" />
-                <h1 className="mb-4">Netlify Platform Starter – Next.js</h1>
-                <p className="mb-6 text-lg">
-                    Deploy the latest version of Next.js — including Turbopack, React Compiler, and the new caching APIs
-                    — on Netlify in seconds. No configuration or custom adapter required.
+        <div className="flex flex-col gap-12 sm:gap-16 text-center px-4 py-8">
+            <section className="flex flex-col items-center gap-6">
+
+
+                <Image
+                    src={cover}
+                    alt="cover"
+                    className=" w-full max-w-sm sm:max-w-md md:max-w-lg"
+                />
+
+                <iframe
+                    data-testid="embed-iframe"
+                    style={{ borderRadius: '12px' }}
+                    src="https://open.spotify.com/embed/album/3kf0gD02XV7sKAf2Qc7uRS?utm_source=generator&si=d8ab473c9be74218"
+                    width="100%"
+                    height="352"
+                    frameBorder="0"
+                    allowFullScreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    className="w-full max-w-xl"
+                ></iframe>
+
+                <h2 className="mt-6 text-xl sm:text-2xl font-semibold text-white">
+                    Keikat
+                </h2>
+                <p className="text-lg text-white">
+                    Hardrock House, Helsinki - 10.9.2025
                 </p>
-                <Link href="https://docs.netlify.com/frameworks/next-js/overview/" className="btn btn-lg sm:min-w-64">
-                    Read the Docs
-                </Link>
-            </section>
-            {!!ctx && (
-                <section className="flex flex-col gap-4">
-                    <Markdown content={contextExplainer} />
-                    <RuntimeContextCard />
-                </section>
-            )}
-            <section className="flex flex-col gap-4">
-                <Markdown content={preDynamicContentExplainer} />
-                <RandomQuote />
             </section>
         </div>
     );
 }
+
+// ...existing code...
 
 function RuntimeContextCard() {
     const title = `Netlify Context: running in ${ctx} mode.`;
